@@ -1,0 +1,14 @@
+{
+  "posts": [
+    {
+      "id": 1,
+      "title": "Create a login form using formik in react js",
+      "body": "Todays article will demonstrate how to develop a login form in react js using formik."
+    },
+    {
+      "title": "ajith",
+      "body": "zybisy",
+      "id": 3
+    }
+  ]
+}

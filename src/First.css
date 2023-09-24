@@ -1,0 +1,42 @@
+*
+{
+    margin: 0;
+    padding:0;
+    box-sizing: border-box;
+}
+
+.all
+{
+    margin-left: 23%;
+    margin-right: 20%;
+    margin-top:2%;
+    border:2px solid black;
+    border-radius: 10px;
+    padding:10px;
+
+}
+
+.subclass
+{
+    display:flex;
+}
+
+.button-1
+{
+    margin-left:5%;
+    font-weight: bold;
+    color:black;
+    border-radius: 10px;
+    padding:5px;
+    cursor:pointer;
+}
+
+.first-1
+{
+    border:2px solid black;
+    width:fit-content;
+    padding:10px;
+    border-radius: 10px;
+    position:absolute;
+    top:20%;
+}

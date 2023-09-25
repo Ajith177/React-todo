@@ -1,6 +1,8 @@
 import React,{useState,useEffect} from 'react';
 import axios from 'axios';
 import './First.css';
+import {useNavigate } from 'react-router-dom';
+
 
 function First() {
     const[complete,setComplete]=useState([]);
@@ -11,6 +13,9 @@ function First() {
 
     const[future,setFuture]=useState([])
 
+    // const [visible,setVisible]=useState(false);
+
+    const navigate=useNavigate()
     useEffect(()=>{
       axios.get('http://localhost:3000/posts')
       .then(response=>{
@@ -45,11 +50,13 @@ function First() {
         }
       }
 
-
-      const updating=()=>{
-
+      const editing=(id,e)=>{
+        localStorage.setItem('input',JSON.stringify(id))
+        navigate(`/Edit${id}`,{state:id})
       }
-
+     
+       
+    
       const deleting=(id,e)=>{
             axios.delete(`http://localhost:3000/posts/${id}`)
             .then((res)=>{
@@ -67,14 +74,13 @@ function First() {
     <div>
       {
         complete.data?.map((items)=>{
-          let s=items.id
             return(
                 <div className='all'>
                 <p><b>id:</b>{items.id}</p>
                 <p><b>title:</b>{items.title}</p>
                 <p><b>body:</b>{items.body}</p>
                 <div className='subclass'>
-                  <button  className='button-1' onClick={updating}>UPDATE</button>
+                  <button className='button-1' onClick={e=>editing(items.id,e)}>EDIT</button>
                   <button  className='button-1' onClick={e=>deleting(items.id,e)}>DELETE</button>
                 </div>
                 </div>
@@ -88,6 +94,6 @@ function First() {
       </div>
     </div>
   )
-}
+    }
 
 export default First;

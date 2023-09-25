@@ -5,12 +5,14 @@ import { useNavigate } from 'react-router-dom';
 
 
 function First({ complete, setComplete, setEditData }) {
+  console.log(complete)
   const [basket, setBasket] = useState({
     title: "",
     body: "",
   })
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+
   useEffect(() => {
     axios.get('http://localhost:3030/posts')
       .then(response => {
@@ -25,23 +27,28 @@ function First({ complete, setComplete, setEditData }) {
 
   const handleChange = (e) => {
     setBasket({ ...basket, [e.target.name]: e.target.value })
-    setFuture(basket)
   }
 
   const handlesubmit = (e) => {
     e.preventDefault();
-    if (future.length < 1) {
+    if (basket.length < 1) {
       alert('The fields should not be empty')
     }
-    
+
     else {
       const future = {
-        title,
-        body,
+        title: basket.title,
+        body: basket.body,
       };
       axios.post('http://localhost:3030/posts', future)
         .then((response) => {
-          setComplete(response.data)
+          axios.get('http://localhost:3030/posts')
+            .then(response => {
+              setComplete(response.data)
+            })
+            .catch(err => {
+              console.log(err)
+            })
         })
         .catch((error) => {
           console.log(error)
@@ -71,7 +78,7 @@ function First({ complete, setComplete, setEditData }) {
       {
         complete.map((items) => {
           return (
-            <div className='all'>
+            <div className='all' key={items.id}>
               <p><b>id:</b>{items.id}</p>
               <p><b>title:</b>{items.title}</p>
               <p><b>body:</b>{items.body}</p>

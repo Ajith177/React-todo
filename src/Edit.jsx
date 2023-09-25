@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import "./First.css";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 // import { useLocation } from "react-router-dom";
 
 function Edit({ setComplete, editData }) {
 //   const dating = useLocation;
 //   const getting_data = dating.state;
+const navigating=useNavigate()
   const [data, setData] = useState({
     title: editData.title,
     body: editData.body,
@@ -28,10 +30,12 @@ function Edit({ setComplete, editData }) {
       });
   });
   const clicking = () => {
+    navigating('/First')
+
     const future = {
       title: data.title,
       body: data.body,
-    };
+    }
     axios
       .put(`http://localhost:3030/posts/${editData.id}`, future)
       .then((response) => {

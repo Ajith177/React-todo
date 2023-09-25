@@ -4,7 +4,7 @@ import './First.css';
 import {useNavigate } from 'react-router-dom';
 
 
-function First() {
+function First({setEditData}) {
     const[complete,setComplete]=useState([]);
     const [basket,setBasket]=useState ({
       title:"" ,
@@ -13,11 +13,9 @@ function First() {
 
     const[future,setFuture]=useState([])
 
-    // const [visible,setVisible]=useState(false);
-
     const navigate=useNavigate()
     useEffect(()=>{
-      axios.get('http://localhost:3000/posts')
+      axios.get('http://localhost:3030/posts')
       .then(response=>{
         setComplete(response)
       })
@@ -31,7 +29,6 @@ function First() {
       const handleChange = (e)=>{
         setBasket({...basket,[e.target.name]:e.target.value})
         setFuture(basket)
-        
       }
 
       const handlesubmit =(e)=>{
@@ -40,7 +37,7 @@ function First() {
           alert('The fields should not be empty')
         }
         else{
-          axios.post('http://localhost:3000/posts',future)
+          axios.post('http://localhost:3030/posts',future)
         .then((response)=>{
           console.log(response)
         })
@@ -50,15 +47,13 @@ function First() {
         }
       }
 
-      const editing=(id,e)=>{
-        localStorage.setItem('input',JSON.stringify(id))
-        navigate(`/Edit${id}`,{state:id})
+      const editing=(item)=>{
+        setEditData(item)
+        navigate(`/Edit`)
       }
      
-       
-    
       const deleting=(id,e)=>{
-            axios.delete(`http://localhost:3000/posts/${id}`)
+            axios.delete(`http://localhost:3030/posts/${id}`)
             .then((res)=>{
               console.log(res)
               alert(`The data with the ${id} was deleted`)
@@ -67,7 +62,6 @@ function First() {
               console.log(error)
               alert(`The data ${id} is not deleted`)
             })
-          
       }
 
   return (
@@ -80,8 +74,9 @@ function First() {
                 <p><b>title:</b>{items.title}</p>
                 <p><b>body:</b>{items.body}</p>
                 <div className='subclass'>
-                  <button className='button-1' onClick={e=>editing(items.id,e)}>EDIT</button>
+                  <button className='button-1' onClick={e=>editing(items)}>EDIT</button>
                   <button  className='button-1' onClick={e=>deleting(items.id,e)}>DELETE</button>
+                  {/* <Edit values={items.id}> </Edit> */}
                 </div>
                 </div>
             )
@@ -92,7 +87,9 @@ function First() {
         body:<textarea type="text" placeholder="body" onChange={handleChange} className='text-box'autoFocus name="body"/><br/>
         <button className='button-1' onClick={handlesubmit}>SUBMIT</button>
       </div>
+     
     </div>
+    
   )
     }
 

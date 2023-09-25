@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import "./First.css";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
+// import { useLocation } from "react-router-dom";
 
-function Edit({ editData }) {
-  const dating = useLocation;
-  const getting_data = dating.state;
+function Edit({ setComplete, editData }) {
+//   const dating = useLocation;
+//   const getting_data = dating.state;
   const [data, setData] = useState({
     title: editData.title,
     body: editData.body,
@@ -14,7 +14,6 @@ function Edit({ editData }) {
   const handleInput = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
     console.log(data);
-    console.log(values);
   };
 
   useEffect(() => {
@@ -29,7 +28,26 @@ function Edit({ editData }) {
       });
   });
   const clicking = () => {
-    console.log(getting_data);
+    const future = {
+      title: data.title,
+      body: data.body,
+    };
+    axios
+      .put(`http://localhost:3030/posts/${editData.id}`, future)
+      .then((response) => {
+        axios
+          .get(`http://localhost:3030/posts`)
+          .then((response) => {
+            setComplete(response.data);
+          })
+
+          .catch((err) => {
+            console.log(err);
+          });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (

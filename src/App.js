@@ -6,13 +6,14 @@ import { useState } from 'react';
 
 function App() {
   const [editData,setEditData] = useState();
+  const[complete,setComplete]=useState([]);
  
   return (
     <div className="App">
       <Router>
         <Routes>
-          <Route path="First" element={<First setEditData={setEditData}/>}/>
-          <Route path='Edit' element={<Edit editData={editData}/>}/>
+          <Route path="First" element={<First complete={complete} setComplete={setComplete} setEditData={setEditData}/>}/>
+          <Route path='Edit' element={<Edit setComplete={setComplete} editData={editData}/>}/>
         </Routes>
       </Router>
     </div>
